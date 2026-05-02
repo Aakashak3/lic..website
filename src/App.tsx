@@ -249,10 +249,10 @@ const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGe
             </span>
             <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-[1.1] mb-6">
               LIC Life Insurance in <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFC300] to-[#FFD60A]">Nagapattinam, Tamil Nadu</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFC300] to-[#FFD60A]">Chennai Valasaravakkam</span>
             </h1>
             <p className="text-lg text-white/80 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-              Looking for a trusted LIC insurance agent in Nagapattinam, Tamil Nadu? We help families choose the right LIC life insurance plan like Term Plan, Jeevan Anand, Pension schemes and child plans. Compare plans and get free expert advice in Tamil or English.
+              Looking for a trusted LIC insurance agent in Chennai Valasaravakkam? We provide Chennai Plans, Term Plans, Child welfare Plans, Pension Plans, Ulip Plans, Endowment Plans, Life Insurance Plans, and Fixed deposits Plans. Maturity Settlement, Paid-up, Loan facilities and all types of LIC works will be done. 100% Guaranteed by govt of India.
             </p>
           </motion.div>
 
@@ -833,7 +833,7 @@ const ContactSection = () => {
               <div>
                 <h4 className="text-xs font-extrabold text-[#FFC300] uppercase tracking-widest mb-2">Visit Office</h4>
                 <p className="text-lg md:text-xl font-bold leading-relaxed text-white/80">
-                  Serving Nagapattinam & Tamil Nadu<br />
+                  Serving Chennai Valasaravakkam & Tamil Nadu<br />
                   Licensed LIC Consultant • Home Visit Available
                 </p>
               </div>
@@ -963,9 +963,9 @@ export default function App() {
     {
       id: '2',
       title: "LIC AMRITBAAL",
-      description: "Child Future Guaranteed Plan. Secure your child's dreams for higher education and foreign studies with guaranteed returns.",
-      term: "5-25 Years",
-      maturity: "₹50 Lakh Lump Sum or ₹11 Lakh/Year Payout",
+      description: "Child Future Guaranteed Plan. Secure your child's dreams for higher education and foreign studies with guaranteed returns. PPT 5, 6, 7 Years.",
+      term: "18 - 25 Years",
+      maturity: "Guaranteed Returns | PPT 5, 6, 7 Years",
       isHidden: false,
       image: "/amritbaal.jpg"
     },
@@ -1008,8 +1008,8 @@ export default function App() {
     {
       id: '7',
       title: "AMRITBAAL (Children's Plan)",
-      description: "Specially designed to meet the educational and other needs of children with guaranteed additions.",
-      term: "5 - 25 Years",
+      description: "Specially designed to meet the educational and other needs of children with guaranteed additions. PPT 5, 6, 7 Years.",
+      term: "18 - 25 Years",
       maturity: "Guaranteed Maturity for Child's Future",
       isHidden: false,
       image: "/sevan.png"
@@ -1124,14 +1124,14 @@ export default function App() {
                 <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Meet Your Advisor</span>
                 <h2 className="text-3xl md:text-5xl font-extrabold text-[#001D3D] leading-tight mb-8">
                   Best LIC Insurance Agent in <br />
-                  <span className="text-gradient">Nagapattinam</span>
+                  <span className="text-gradient">Chennai Valasaravakkam</span>
                 </h2>
                 <div className="space-y-6">
                   <p className="text-xl text-[#4A4A4A] leading-relaxed font-medium">
-                    “I am Xavier, providing professional LIC insurance services in <span className="text-[#001D3D] font-bold">Nagapattinam and across Tamil Nadu</span> with 6 years of expertise.”
+                    “I am Xavier, providing professional LIC insurance services in <span className="text-[#001D3D] font-bold">Chennai Valasaravakkam and across Tamil Nadu</span> with 6 years of expertise.”
                   </p>
                   <p className="text-lg text-[#4A4A4A]/80 leading-relaxed font-medium">
-                    We are a licensed LIC insurance consultant in Nagapattinam, helping families choose the right LIC policy for protection, child education and retirement. Home visit consultation is available upon request.
+                    We are a licensed LIC insurance consultant in Chennai Valasaravakkam, helping families choose the right LIC policy for protection, child education and retirement. Home visit consultation is available upon request.
                   </p>
                 </div>
               </div>
@@ -1165,7 +1165,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
             <div className="text-center mb-20">
               <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Exclusive Plans</span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#001D3D]">Popular LIC Plans in Nagapattinam</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-[#001D3D]">Popular LIC Plans in Chennai Valasaravakkam</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {policies.filter(p => !p.isHidden).map((policy) => (
@@ -1191,7 +1191,7 @@ export default function App() {
               <div className="text-center space-y-4">
                 <div className="w-16 h-16 bg-[#FFC300] text-[#001D3D] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-xl">1</div>
                 <h3 className="text-xl font-bold">Free Consultation</h3>
-                <p className="text-white/60">Connect with Xavier A for a personalized plan analysis in Nagapattinam.</p>
+                <p className="text-white/60">Connect with Xavier A for a personalized plan analysis in Chennai Valasaravakkam.</p>
               </div>
               <div className="text-center space-y-4">
                 <div className="w-16 h-16 bg-[#FFC300] text-[#001D3D] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-xl">2</div>
@@ -1224,10 +1224,10 @@ export default function App() {
             <div className="grid md:grid-cols-2 gap-16">
               {/* Term Plan SEO */}
               <div className="space-y-8">
-                <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Term Plan in Nagapattinam – Affordable Life Cover</h2>
+                <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Term Plan in Chennai Valasaravakkam – Affordable Life Cover</h2>
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold text-[#001D3D]">Why choose LIC Term Plan?</h3>
-                  <p className="text-gray-600">Low premium, high cover, and tax benefits under 80C & 10(10D). It is the best choice for family protection and the purest form of life insurance for family security in Nagapattinam.</p>
+                  <p className="text-gray-600">Low premium, high cover, and tax benefits under 80C & 10(10D). It is the best choice for family protection and the purest form of life insurance for family security in Chennai Valasaravakkam.</p>
                   
                   <h3 className="text-xl font-bold text-[#001D3D]">How much cover do you need?</h3>
                   <p className="text-gray-600">Simple calculator-style approach: It is recommended to have a cover that is 10–15 times your yearly income (Income x 15 + Loan amount).</p>
@@ -1244,7 +1244,7 @@ export default function App() {
 
               {/* Jeevan Anand SEO */}
               <div className="space-y-8">
-                <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Jeevan Anand Policy in Nagapattinam</h2>
+                <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Jeevan Anand Policy in Chennai Valasaravakkam</h2>
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold text-[#001D3D]">Plan Benefits</h3>
                   <p className="text-gray-600">Survival benefit, maturity benefit, and death benefit are provided. This plan is highly suitable for child education and marriage planning. LIC Jeevan Anand provides lifelong risk cover even after maturity.</p>
@@ -1291,9 +1291,9 @@ export default function App() {
 
             <div className="mt-24 grid md:grid-cols-2 gap-12 text-left">
               <div className="bg-[#F8FAFC] p-8 rounded-[2rem] border border-gray-100">
-                <h3 className="text-xl font-bold text-[#001D3D] mb-4">LIC Policy Surrender in Nagapattinam</h3>
+                <h3 className="text-xl font-bold text-[#001D3D] mb-4">LIC Policy Surrender in Chennai Valasaravakkam</h3>
                 <p className="text-base text-gray-600 leading-relaxed">
-                  Need to surrender your LIC policy or check its surrender value? We provide professional assistance in Nagapattinam for policy surrenders, loan applications, and maturity claims. Visit us for a hassle-free experience.
+                  Need to surrender your LIC policy or check its surrender value? We provide professional assistance in Chennai Valasaravakkam for policy surrenders, loan applications, and maturity claims. Visit us for a hassle-free experience.
                 </p>
               </div>
               <div className="bg-[#F8FAFC] p-8 rounded-[2rem] border border-gray-100">
@@ -1307,23 +1307,23 @@ export default function App() {
             <div className="mt-24 text-center space-y-8 max-w-3xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#001D3D]">How to Buy LIC Policy Online / Offline?</h2>
               <p className="text-lg text-gray-600">
-                You can easily take a policy from Nagapattinam. We help you compare plans online and apply through a paperless process. Offline home visits are also available. Secure your family with the help of the best LIC insurance agent in Nagapattinam.
+                You can easily take a policy from Chennai Valasaravakkam. We help you compare plans online and apply through a paperless process. Offline home visits are also available. Secure your family with the help of the best LIC insurance agent in Chennai Valasaravakkam.
               </p>
               
               <div className="mt-16 text-left space-y-8">
-                <h2 className="text-3xl font-extrabold text-[#001D3D] text-center">Frequently Asked Questions (Nagapattinam LIC)</h2>
+                <h2 className="text-3xl font-extrabold text-[#001D3D] text-center">Frequently Asked Questions (Chennai Valasaravakkam LIC)</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
-                    <h4 className="font-bold text-[#001D3D] mb-2">LIC office address in Nagapattinam?</h4>
-                    <p className="text-base text-gray-600">Our advisor, Xavier A, provides home services for Nagapattinam and surrounding areas across Tamil Nadu.</p>
+                    <h4 className="font-bold text-[#001D3D] mb-2">LIC office address in Chennai Valasaravakkam?</h4>
+                    <p className="text-base text-gray-600">Our advisor, Xavier A, provides home services for Chennai Valasaravakkam and surrounding areas across Tamil Nadu.</p>
                   </div>
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
-                    <h4 className="font-bold text-[#001D3D] mb-2">How to claim LIC maturity in Nagapattinam?</h4>
+                    <h4 className="font-bold text-[#001D3D] mb-2">How to claim LIC maturity in Chennai Valasaravakkam?</h4>
                     <p className="text-base text-gray-600">We provide full support for document collection and processing for policy maturity claims.</p>
                   </div>
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
                     <h4 className="font-bold text-[#001D3D] mb-2">Is home visit available for LIC policy?</h4>
-                    <p className="text-base text-gray-600">Yes, we will visit your location in Nagapattinam to explain the plans and complete the process.</p>
+                    <p className="text-base text-gray-600">Yes, we will visit your location in Chennai Valasaravakkam to explain the plans and complete the process.</p>
                   </div>
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
                     <h4 className="font-bold text-[#001D3D] mb-2">Best LIC child plan for education?</h4>
@@ -1332,7 +1332,7 @@ export default function App() {
                 </div>
               </div>
 
-              <h2 className="text-3xl font-extrabold text-[#001D3D]">Free LIC Consultation in Nagapattinam</h2>
+              <h2 className="text-3xl font-extrabold text-[#001D3D]">Free LIC Consultation in Chennai Valasaravakkam</h2>
               <div className="flex flex-wrap justify-center gap-6">
                 <a 
                   href="https://wa.me/918838024747" 
