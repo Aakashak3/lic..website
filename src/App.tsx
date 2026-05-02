@@ -183,6 +183,32 @@ const FloatingButtons = () => {
   );
 };
 
+const StatsSection = () => {
+  const stats = [
+    { label: "Happy Families", value: "2,000+", icon: Smile },
+    { label: "Claims Settled", value: "99.2%", icon: CheckCircle2 },
+    { label: "Years Excellence", value: "6+", icon: Shield }
+  ];
+
+  return (
+    <div className="relative z-20 -mt-12 max-w-7xl mx-auto px-4 md:px-8">
+      <div className="glass rounded-[2rem] border-white/40 shadow-2xl p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-12">
+        {stats.map((stat, i) => (
+          <div key={i} className="flex items-center gap-6 group">
+            <div className="w-16 h-16 bg-[#001D3D] rounded-2xl flex items-center justify-center text-[#FFC300] shadow-lg group-hover:scale-110 transition-transform">
+              <stat.icon size={32} />
+            </div>
+            <div>
+              <p className="text-3xl font-extrabold text-[#001D3D]">{stat.value}</p>
+              <p className="text-sm font-bold text-[#4A4A4A] uppercase tracking-widest">{stat.label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGetQuote: () => void }) => {
   return (
     <section className="relative min-h-screen flex items-center premium-gradient overflow-hidden pt-20">
@@ -221,7 +247,7 @@ const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGe
             <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#FFC300] text-sm font-bold tracking-wider uppercase mb-6 shadow-xl">
               Official LIC Insurance Advisor
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-[1.1] mb-6">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-[1.1] mb-6">
               LIC Life Insurance in <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFC300] to-[#FFD60A]">Nagapattinam, Tamil Nadu</span>
             </h1>
@@ -1014,14 +1040,14 @@ export default function App() {
     return [
       {
         id: 'new-1',
-        title: "2025 ஆண்டின் சிறந்த 5 எல் ஐ சி பாலிசி Best 5 LIC policy 2025 New update tamil",
+        title: "Best 5 LIC Policies in 2025 - Expert Comparison & New Updates",
         thumbnail: "https://img.youtube.com/vi/RqFOd0SX2hk/maxresdefault.jpg",
         category: "Top Policies 2025",
         url: "https://youtu.be/RqFOd0SX2hk?si=vH_EUTNRFPR4_gar"
       },
       {
         id: 'new-2',
-        title: "LIC பாலிசி வாழ்க்கைக்கு உதவுமா? New Lic Jeevan Anand policy explained in Tamil",
+        title: "Is LIC Policy Worth It? Jeevan Anand Plan Explained in Detail",
         thumbnail: "https://img.youtube.com/vi/kwkrJAZJbys/maxresdefault.jpg",
         category: "Policy Analysis",
         url: "https://youtu.be/kwkrJAZJbys?si=LAG78cRcts8WixkP"
@@ -1056,6 +1082,8 @@ export default function App() {
           onSecureFuture={() => document.getElementById('policies')?.scrollIntoView({ behavior: 'smooth' })}
           onGetQuote={() => handleInterested('General Quote')}
         />
+
+        <StatsSection />
 
         {/* About Us Section */}
         <section id="about" className="py-24 md:py-32 px-4 md:px-8 relative">
@@ -1094,7 +1122,7 @@ export default function App() {
             >
               <div>
                 <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Meet Your Advisor</span>
-                <h2 className="text-4xl md:text-6xl font-extrabold text-[#001D3D] leading-tight mb-8">
+                <h2 className="text-3xl md:text-5xl font-extrabold text-[#001D3D] leading-tight mb-8">
                   Best LIC Insurance Agent in <br />
                   <span className="text-gradient">Nagapattinam</span>
                 </h2>
@@ -1137,7 +1165,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
             <div className="text-center mb-20">
               <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Exclusive Plans</span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-[#001D3D]">Popular LIC Plans in Nagapattinam</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-[#001D3D]">Popular LIC Plans in Nagapattinam</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {policies.filter(p => !p.isHidden).map((policy) => (
@@ -1150,6 +1178,44 @@ export default function App() {
             </div>
           </div>
         </section>
+        {/* Correct Structure: Why Choose Us & Process */}
+        <section className="py-24 bg-[#001D3D] text-white overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFC300] opacity-[0.05] blur-[100px] -mr-48 -mt-48"></div>
+          <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+            <div className="text-center mb-16">
+              <span className="text-[#FFC300] font-bold uppercase tracking-widest text-sm mb-4 block">Our Process</span>
+              <h2 className="text-3xl md:text-5xl font-extrabold mb-6">3 Simple Steps to Secure Your Future</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-12">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-[#FFC300] text-[#001D3D] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-xl">1</div>
+                <h3 className="text-xl font-bold">Free Consultation</h3>
+                <p className="text-white/60">Connect with Xavier A for a personalized plan analysis in Nagapattinam.</p>
+              </div>
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-[#FFC300] text-[#001D3D] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-xl">2</div>
+                <h3 className="text-xl font-bold">Plan Comparison</h3>
+                <p className="text-white/60">Compare the best LIC policies like Term Plans and Jeevan Anand side-by-side.</p>
+              </div>
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-[#FFC300] text-[#001D3D] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-xl">3</div>
+                <h3 className="text-xl font-bold">Paperless Onboarding</h3>
+                <p className="text-white/60">Get your policy processed digitally with zero hassle and full support.</p>
+              </div>
+            </div>
+
+            <div className="mt-16 text-center">
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-[#FFC300] text-[#001D3D] px-10 py-4 rounded-2xl font-bold text-lg hover:bg-white transition-all shadow-2xl"
+              >
+                Start Your Journey Now
+              </button>
+            </div>
+          </div>
+        </section>
+
 
         {/* Policy Videos */}
         {/* Local SEO Content Sections */}
@@ -1160,11 +1226,11 @@ export default function App() {
               <div className="space-y-8">
                 <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Term Plan in Nagapattinam – Affordable Life Cover</h2>
                 <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-[#001D3D]">Why choose LIC Term Plan? (ஏன் LIC டேர்ம் பிளான் எடுக்க வேண்டும்?)</h3>
-                  <p className="text-gray-600">Low premium, high cover, matrum tax benefits under 80C & 10(10D). Family protection-ku ithu thaan best choice. It's the purest form of life insurance for family security in Nagapattinam.</p>
+                  <h3 className="text-xl font-bold text-[#001D3D]">Why choose LIC Term Plan?</h3>
+                  <p className="text-gray-600">Low premium, high cover, and tax benefits under 80C & 10(10D). It is the best choice for family protection and the purest form of life insurance for family security in Nagapattinam.</p>
                   
                   <h3 className="text-xl font-bold text-[#001D3D]">How much cover do you need?</h3>
-                  <p className="text-gray-600">Simple calculator-style line: Unga yearly income pola 10–15 times cover edukkurathu nallathu (Income x 15 + Loan amount).</p>
+                  <p className="text-gray-600">Simple calculator-style approach: It is recommended to have a cover that is 10–15 times your yearly income (Income x 15 + Loan amount).</p>
                 </div>
                 <motion.button 
                   whileHover={{ scale: 1.02 }}
@@ -1172,7 +1238,7 @@ export default function App() {
                   onClick={() => handleInterested('Term Plan Quote')}
                   className="bg-[#001D3D] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2"
                 >
-                  Compare Term Plans Now → WhatsApp-la enquiry pannunga <ArrowRight size={18} />
+                  Compare Term Plans Now → WhatsApp for Inquiry <ArrowRight size={18} />
                 </motion.button>
               </div>
 
@@ -1180,8 +1246,8 @@ export default function App() {
               <div className="space-y-8">
                 <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Jeevan Anand Policy in Nagapattinam</h2>
                 <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-[#001D3D]">Plan Benefits (Tamil/English)</h3>
-                  <p className="text-gray-600">Survival benefit, maturity benefit, matrum death benefit kidaiyum. Child education matrum marriage-ku romba suitable-ana plan ithu. LIC Jeevan Anand provides lifelong risk cover even after maturity.</p>
+                  <h3 className="text-xl font-bold text-[#001D3D]">Plan Benefits</h3>
+                  <p className="text-gray-600">Survival benefit, maturity benefit, and death benefit are provided. This plan is highly suitable for child education and marriage planning. LIC Jeevan Anand provides lifelong risk cover even after maturity.</p>
                   
                   <div className="overflow-x-auto rounded-2xl border border-gray-100 mt-4">
                     <table className="w-full text-left text-sm">
@@ -1226,13 +1292,13 @@ export default function App() {
             <div className="mt-24 grid md:grid-cols-2 gap-12 text-left">
               <div className="bg-[#F8FAFC] p-8 rounded-[2rem] border border-gray-100">
                 <h3 className="text-xl font-bold text-[#001D3D] mb-4">LIC Policy Surrender in Nagapattinam</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-base text-gray-600 leading-relaxed">
                   Need to surrender your LIC policy or check its surrender value? We provide professional assistance in Nagapattinam for policy surrenders, loan applications, and maturity claims. Visit us for a hassle-free experience.
                 </p>
               </div>
               <div className="bg-[#F8FAFC] p-8 rounded-[2rem] border border-gray-100">
                 <h3 className="text-xl font-bold text-[#001D3D] mb-4">Family Protection Plan Tamil Nadu</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-base text-gray-600 leading-relaxed">
                   Secure your family's financial future with our customized protection plans. We analyze your needs to suggest the best LIC term plans and endowment policies suitable for residents of Tamil Nadu.
                 </p>
               </div>
@@ -1241,7 +1307,7 @@ export default function App() {
             <div className="mt-24 text-center space-y-8 max-w-3xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#001D3D]">How to Buy LIC Policy Online / Offline?</h2>
               <p className="text-lg text-gray-600">
-                Nagapattinam-la irunthu neenga easy-a policy edukalam. Online-la compare panni, paperless-a apply panna nanga help panrom. Ofline home visit-um available. Best LIC insurance agent in Nagapattinam help-oda unga family-a secure pannunga.
+                You can easily take a policy from Nagapattinam. We help you compare plans online and apply through a paperless process. Offline home visits are also available. Secure your family with the help of the best LIC insurance agent in Nagapattinam.
               </p>
               
               <div className="mt-16 text-left space-y-8">
@@ -1249,19 +1315,19 @@ export default function App() {
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
                     <h4 className="font-bold text-[#001D3D] mb-2">LIC office address in Nagapattinam?</h4>
-                    <p className="text-sm text-gray-600">Engal advisor Xavier A Nagapattinam matrum sutrum vattaara paguthigalukku (Tamil Nadu) home service valangugiraar.</p>
+                    <p className="text-base text-gray-600">Our advisor, Xavier A, provides home services for Nagapattinam and surrounding areas across Tamil Nadu.</p>
                   </div>
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
                     <h4 className="font-bold text-[#001D3D] mb-2">How to claim LIC maturity in Nagapattinam?</h4>
-                    <p className="text-sm text-gray-600">Policy maturity claims-ku document collection matrum processing-ku nanga full support tharuvom.</p>
+                    <p className="text-base text-gray-600">We provide full support for document collection and processing for policy maturity claims.</p>
                   </div>
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
                     <h4 className="font-bold text-[#001D3D] mb-2">Is home visit available for LIC policy?</h4>
-                    <p className="text-sm text-gray-600">Yes, Nagapattinam-la neenga irukkum idathirkke vanthu plan explain panni process seivom.</p>
+                    <p className="text-base text-gray-600">Yes, we will visit your location in Nagapattinam to explain the plans and complete the process.</p>
                   </div>
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
                     <h4 className="font-bold text-[#001D3D] mb-2">Best LIC child plan for education?</h4>
-                    <p className="text-sm text-gray-600">LIC Amritbaal matrum Jeevan Tarun plans child education-ku romba nallathu.</p>
+                    <p className="text-base text-gray-600">LIC Amritbaal and Jeevan Tarun plans are excellent options for child education.</p>
                   </div>
                 </div>
               </div>
@@ -1272,7 +1338,7 @@ export default function App() {
                   href="https://wa.me/918838024747" 
                   className="bg-[#25D366] text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 shadow-xl hover:bg-[#20ba5a] transition-all"
                 >
-                  <MessageCircle size={24} /> WhatsApp Inquiry (WhatsApp-la enquiry pannunga)
+                  <MessageCircle size={24} /> WhatsApp Inquiry (Message us on WhatsApp)
                 </a>
                 <button 
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
@@ -1290,10 +1356,11 @@ export default function App() {
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
               <div className="max-w-2xl">
                 <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Education Portal</span>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-[#001D3D]">Policy Masterclass</h2>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[#001D3D]">Policy Masterclass & Video Guides</h2>
+                <p className="text-gray-500 mt-4 font-medium italic">"Watch and understand why millions trust LIC for their life goals."</p>
               </div>
-              <button className="text-[#001D3D] font-bold border-b-2 border-[#FFC300] pb-1 hover:text-[#003566] transition-colors">
-                View All Videos
+              <button className="text-[#001D3D] font-bold border-b-2 border-[#FFC300] pb-1 hover:text-[#003566] transition-colors flex items-center gap-2">
+                Browse All Guides <ChevronRight size={18} />
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -1309,6 +1376,7 @@ export default function App() {
             </div>
           </div>
         </section>
+
 
         <ContactSection />
       </main>
