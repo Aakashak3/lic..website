@@ -21,7 +21,9 @@ import {
   Lock,
   ChevronDown,
   ShoppingCart,
-  CheckCircle2
+  CheckCircle2,
+  ExternalLink,
+  MessageSquare
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Policy, Video, Submission } from './types';
@@ -146,6 +148,41 @@ const Navbar = () => {
   );
 };
 
+const FloatingButtons = () => {
+  return (
+    <>
+      {/* Floating WhatsApp Button */}
+      <motion.a
+        href="https://wa.me/918838024747"
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-24 right-6 md:bottom-8 md:right-8 z-[90] bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center hover:bg-[#20ba5a] transition-colors"
+      >
+        <MessageCircle size={32} />
+        <span className="absolute -top-2 -right-2 flex h-5 w-5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-5 w-5 bg-white text-[#25D366] text-[10px] font-bold items-center justify-center">1</span>
+        </span>
+      </motion.a>
+
+      {/* Sticky Mobile CTA */}
+      <div className="md:hidden fixed bottom-0 left-0 w-full z-[100] p-4 glass border-t border-white/40">
+        <motion.a
+          href="#contact"
+          whileTap={{ scale: 0.98 }}
+          className="w-full premium-gradient text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-xl"
+        >
+          <Phone size={18} /> Get Free Consultation Now
+        </motion.a>
+      </div>
+    </>
+  );
+};
+
 const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGetQuote: () => void }) => {
   return (
     <section className="relative min-h-screen flex items-center premium-gradient overflow-hidden pt-20">
@@ -185,12 +222,11 @@ const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGe
               Official LIC Insurance Advisor
             </span>
             <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-[1.1] mb-6">
-              Empowering Your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFC300] to-[#FFD60A]">Financial Legacy</span>
+              LIC Life Insurance in <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFC300] to-[#FFD60A]">Nagapattinam, Tamil Nadu</span>
             </h1>
             <p className="text-lg text-white/80 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-              Join millions of families secured by India's most trusted insurance provider. 
-              Get customized plans that grow with your dreams.
+              Looking for a trusted LIC insurance agent in Nagapattinam, Tamil Nadu? We help families choose the right LIC life insurance plan like Term Plan, Jeevan Anand, Pension schemes and child plans. Compare plans and get free expert advice in Tamil or English.
             </p>
           </motion.div>
 
@@ -201,43 +237,38 @@ const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGe
             className="flex flex-wrap justify-center lg:justify-start gap-6"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, y: -5 }}
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,195,0,0.3)" }}
               whileTap={{ scale: 0.95 }}
               onClick={onSecureFuture}
-              className="accent-gradient text-[#001D3D] px-10 py-5 rounded-2xl font-bold shadow-[0_20px_50px_rgba(255,195,0,0.3)] hover:shadow-[0_20px_50px_rgba(255,195,0,0.5)] transition-all flex items-center gap-3 text-lg"
+              className="accent-gradient text-[#001D3D] px-10 py-4 rounded-2xl font-extrabold shadow-2xl flex items-center gap-2 group transition-all"
             >
-              Secure Your Future <ArrowRight size={20} />
+              Protect My Family <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <motion.button 
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
               whileTap={{ scale: 0.95 }}
               onClick={onGetQuote}
-              className="bg-white/10 backdrop-blur-md border-2 border-white/20 text-white px-10 py-5 rounded-2xl font-bold hover:bg-white/20 transition-all text-lg"
+              className="px-10 py-4 rounded-2xl font-extrabold text-white border-2 border-white/30 backdrop-blur-md hover:border-white/60 transition-all flex items-center gap-2"
             >
-              Contact Expert
+              <Phone size={20} /> Request Callback
             </motion.button>
           </motion.div>
 
-          {/* Trust Badges */}
+          {/* Quick Trust Badges */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="flex flex-wrap justify-center lg:justify-start items-center gap-8 pt-6 border-t border-white/10"
+            className="flex flex-wrap items-center justify-center lg:justify-start gap-8 pt-4"
           >
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold text-white">6+</span>
-              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Years Experience</span>
+            <div className="flex items-center gap-2 text-white/60 text-xs font-bold uppercase tracking-widest">
+              <CheckCircle2 size={16} className="text-[#FFC300]" /> Govt. Guaranteed
             </div>
-            <div className="h-10 w-px bg-white/10 hidden sm:block"></div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold text-white">10k+</span>
-              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Happy Clients</span>
+            <div className="flex items-center gap-2 text-white/60 text-xs font-bold uppercase tracking-widest">
+              <CheckCircle2 size={16} className="text-[#FFC300]" /> 24/7 Support
             </div>
-            <div className="h-10 w-px bg-white/10 hidden sm:block"></div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold text-white">95%</span>
-              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Claim Success</span>
+            <div className="flex items-center gap-2 text-white/60 text-xs font-bold uppercase tracking-widest">
+              <CheckCircle2 size={16} className="text-[#FFC300]" /> Tax Benefits
             </div>
           </motion.div>
         </div>
@@ -253,6 +284,7 @@ const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGe
               <img 
                 src="/family.png" 
                 alt="Happy Family" 
+                loading="lazy"
                 className="rounded-[2rem] w-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
@@ -274,10 +306,6 @@ const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGe
               </motion.div>
             </div>
           </motion.div>
-
-          {/* Geometric accents */}
-          <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#FFC300] rounded-2xl rotate-12 opacity-20 animate-pulse"></div>
-          <div className="absolute -bottom-10 -left-10 w-32 h-32 border-2 border-[#CAF0F8] rounded-full opacity-20 animate-ping"></div>
         </div>
       </div>
     </section>
@@ -314,6 +342,7 @@ const PolicyCard: React.FC<{ policy: Policy, onInterested: (title: string) => vo
           <img 
             src={policy.image} 
             alt={policy.title} 
+            loading="lazy"
             className="w-full h-auto object-contain transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
             referrerPolicy="no-referrer"
           />
@@ -485,7 +514,7 @@ const PolicyInterestForm = ({
                       type="text" 
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g. John Doe"
+                      placeholder="Enter Name"
                       className="w-full bg-white border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-semibold text-[#001D3D] focus:border-[#FFC300] focus:ring-4 focus:ring-[#FFC300]/10 outline-none transition-all shadow-sm"
                     />
                   </div>
@@ -500,7 +529,7 @@ const PolicyInterestForm = ({
                         type="tel" 
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        placeholder="80567 39438"
+                        placeholder="1234567890"
                         className="flex-1 bg-white border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-semibold text-[#001D3D] focus:border-[#FFC300] focus:ring-4 focus:ring-[#FFC300]/10 outline-none transition-all shadow-sm"
                       />
                     </div>
@@ -623,6 +652,7 @@ const VideoCard: React.FC<{ title: string, thumbnail: string, category: string, 
       <img 
         src={thumbnail} 
         alt={title} 
+        loading="lazy"
         className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-all duration-700 group-hover:scale-110"
         referrerPolicy="no-referrer"
       />
@@ -777,8 +807,8 @@ const ContactSection = () => {
               <div>
                 <h4 className="text-xs font-extrabold text-[#FFC300] uppercase tracking-widest mb-2">Visit Office</h4>
                 <p className="text-lg md:text-xl font-bold leading-relaxed text-white/80">
-                  32, VOC Street, L/G Floor, Kasi Arcade Annexe,<br />
-                  Kaikankuppam, Alwarthirunagar, Chennai – 600087
+                  Serving Nagapattinam & Tamil Nadu<br />
+                  Licensed LIC Consultant • Home Visit Available
                 </p>
               </div>
             </div>
@@ -834,7 +864,7 @@ const ContactSection = () => {
                           type="text" 
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          placeholder="e.g. John Doe"
+                          placeholder="Enter Name"
                           className="w-full bg-white border-2 border-[#001D3D]/5 rounded-xl px-6 py-4 focus:outline-none focus:border-[#FFC300] focus:bg-white transition-all font-bold text-[#001D3D] placeholder:text-gray-500 shadow-sm"
                         />
                       </div>
@@ -845,7 +875,7 @@ const ContactSection = () => {
                           type="tel" 
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="e.g. 80567 39438"
+                          placeholder="1234567890"
                           className="w-full bg-white border-2 border-[#001D3D]/5 rounded-xl px-6 py-4 focus:outline-none focus:border-[#FFC300] focus:bg-white transition-all font-bold text-[#001D3D] placeholder:text-gray-500 shadow-sm"
                         />
                       </div>
@@ -893,7 +923,7 @@ const ContactSection = () => {
 export default function App() {
   const [selectedPolicy, setSelectedPolicy] = useState<string | null>(null);
 
-  // Data State with initial values - Fixed for client
+  // Data State with initial values
   const [policies] = useState<Policy[]>([
     {
       id: '1',
@@ -1003,6 +1033,10 @@ export default function App() {
     setSelectedPolicy(title);
   };
 
+  const handlePolicySubmit = (submission: any) => {
+    // Already handled in the component
+  };
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] font-sans text-[#1A1A1A] selection:bg-[#FFC300]/30 selection:text-[#001D3D] overflow-x-hidden">
       <Navbar />
@@ -1011,8 +1045,8 @@ export default function App() {
         {selectedPolicy && (
           <PolicyInterestForm 
             policyName={selectedPolicy} 
-            onClose={() => setSelectedPolicy(null)} 
-            onSubmit={() => {}}
+            onClose={() => setSelectedPolicy(null)}
+            onSubmit={handlePolicySubmit}
           />
         )}
       </AnimatePresence>
@@ -1039,6 +1073,7 @@ export default function App() {
                   <img 
                     src="/sir.png" 
                     alt="Xavier A - Insurance Advisor" 
+                    loading="lazy"
                     className="rounded-[2rem] w-full object-cover object-top aspect-[4/5] grayscale hover:grayscale-0 transition-all duration-700"
                     referrerPolicy="no-referrer"
                   />
@@ -1060,15 +1095,15 @@ export default function App() {
               <div>
                 <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Meet Your Advisor</span>
                 <h2 className="text-4xl md:text-6xl font-extrabold text-[#001D3D] leading-tight mb-8">
-                  Guiding Your Path to <br />
-                  <span className="text-gradient">Financial Freedom</span>
+                  Best LIC Insurance Agent in <br />
+                  <span className="text-gradient">Nagapattinam</span>
                 </h2>
                 <div className="space-y-6">
                   <p className="text-xl text-[#4A4A4A] leading-relaxed font-medium">
-                    “I am Xavier, residing in Valasaravakkam, and working as an Insurance Advisor with <span className="text-[#001D3D] font-bold">6 years of professional experience</span>.”
+                    “I am Xavier, providing professional LIC insurance services in <span className="text-[#001D3D] font-bold">Nagapattinam and across Tamil Nadu</span> with 6 years of expertise.”
                   </p>
                   <p className="text-lg text-[#4A4A4A]/80 leading-relaxed font-medium">
-                    I have built a strong reputation by maintaining excellent relationships with my clients and delivering consistent performance. I am here to guide you towards the best solutions to enjoy a secure and happy retirement.
+                    We are a licensed LIC insurance consultant in Nagapattinam, helping families choose the right LIC policy for protection, child education and retirement. Home visit consultation is available upon request.
                   </p>
                 </div>
               </div>
@@ -1102,7 +1137,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
             <div className="text-center mb-20">
               <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Exclusive Plans</span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-[#001D3D]">Future-Ready Policies</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-[#001D3D]">Popular LIC Plans in Nagapattinam</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {policies.filter(p => !p.isHidden).map((policy) => (
@@ -1117,6 +1152,139 @@ export default function App() {
         </section>
 
         {/* Policy Videos */}
+        {/* Local SEO Content Sections */}
+        <section className="py-24 md:py-32 bg-white">
+          <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="grid md:grid-cols-2 gap-16">
+              {/* Term Plan SEO */}
+              <div className="space-y-8">
+                <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Term Plan in Nagapattinam – Affordable Life Cover</h2>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-[#001D3D]">Why choose LIC Term Plan? (ஏன் LIC டேர்ம் பிளான் எடுக்க வேண்டும்?)</h3>
+                  <p className="text-gray-600">Low premium, high cover, matrum tax benefits under 80C & 10(10D). Family protection-ku ithu thaan best choice. It's the purest form of life insurance for family security in Nagapattinam.</p>
+                  
+                  <h3 className="text-xl font-bold text-[#001D3D]">How much cover do you need?</h3>
+                  <p className="text-gray-600">Simple calculator-style line: Unga yearly income pola 10–15 times cover edukkurathu nallathu (Income x 15 + Loan amount).</p>
+                </div>
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleInterested('Term Plan Quote')}
+                  className="bg-[#001D3D] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2"
+                >
+                  Compare Term Plans Now → WhatsApp-la enquiry pannunga <ArrowRight size={18} />
+                </motion.button>
+              </div>
+
+              {/* Jeevan Anand SEO */}
+              <div className="space-y-8">
+                <h2 className="text-3xl font-extrabold text-[#001D3D]">LIC Jeevan Anand Policy in Nagapattinam</h2>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-[#001D3D]">Plan Benefits (Tamil/English)</h3>
+                  <p className="text-gray-600">Survival benefit, maturity benefit, matrum death benefit kidaiyum. Child education matrum marriage-ku romba suitable-ana plan ithu. LIC Jeevan Anand provides lifelong risk cover even after maturity.</p>
+                  
+                  <div className="overflow-x-auto rounded-2xl border border-gray-100 mt-4">
+                    <table className="w-full text-left text-sm">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="p-4 font-extrabold">Feature</th>
+                          <th className="p-4 font-extrabold">Term Plan</th>
+                          <th className="p-4 font-extrabold">Jeevan Anand</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-50">
+                        <tr>
+                          <td className="p-4 font-medium">Premium</td>
+                          <td className="p-4 text-gray-500">Low</td>
+                          <td className="p-4 text-gray-500">Higher</td>
+                        </tr>
+                        <tr>
+                          <td className="p-4 font-medium">Maturity</td>
+                          <td className="p-4 text-gray-500">No payout</td>
+                          <td className="p-4 text-gray-500">Yes (Lump sum)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-4 font-medium">Best for</td>
+                          <td className="p-4 text-gray-500">Pure protection</td>
+                          <td className="p-4 text-gray-500">Savings + Protection</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleInterested('Jeevan Anand Details')}
+                  className="bg-[#FFC300] text-[#001D3D] px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg"
+                >
+                  Apply Jeevan Anand <ArrowRight size={18} />
+                </motion.button>
+              </div>
+            </div>
+
+            <div className="mt-24 grid md:grid-cols-2 gap-12 text-left">
+              <div className="bg-[#F8FAFC] p-8 rounded-[2rem] border border-gray-100">
+                <h3 className="text-xl font-bold text-[#001D3D] mb-4">LIC Policy Surrender in Nagapattinam</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Need to surrender your LIC policy or check its surrender value? We provide professional assistance in Nagapattinam for policy surrenders, loan applications, and maturity claims. Visit us for a hassle-free experience.
+                </p>
+              </div>
+              <div className="bg-[#F8FAFC] p-8 rounded-[2rem] border border-gray-100">
+                <h3 className="text-xl font-bold text-[#001D3D] mb-4">Family Protection Plan Tamil Nadu</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Secure your family's financial future with our customized protection plans. We analyze your needs to suggest the best LIC term plans and endowment policies suitable for residents of Tamil Nadu.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-24 text-center space-y-8 max-w-3xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-[#001D3D]">How to Buy LIC Policy Online / Offline?</h2>
+              <p className="text-lg text-gray-600">
+                Nagapattinam-la irunthu neenga easy-a policy edukalam. Online-la compare panni, paperless-a apply panna nanga help panrom. Ofline home visit-um available. Best LIC insurance agent in Nagapattinam help-oda unga family-a secure pannunga.
+              </p>
+              
+              <div className="mt-16 text-left space-y-8">
+                <h2 className="text-3xl font-extrabold text-[#001D3D] text-center">Frequently Asked Questions (Nagapattinam LIC)</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
+                    <h4 className="font-bold text-[#001D3D] mb-2">LIC office address in Nagapattinam?</h4>
+                    <p className="text-sm text-gray-600">Engal advisor Xavier A Nagapattinam matrum sutrum vattaara paguthigalukku (Tamil Nadu) home service valangugiraar.</p>
+                  </div>
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
+                    <h4 className="font-bold text-[#001D3D] mb-2">How to claim LIC maturity in Nagapattinam?</h4>
+                    <p className="text-sm text-gray-600">Policy maturity claims-ku document collection matrum processing-ku nanga full support tharuvom.</p>
+                  </div>
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
+                    <h4 className="font-bold text-[#001D3D] mb-2">Is home visit available for LIC policy?</h4>
+                    <p className="text-sm text-gray-600">Yes, Nagapattinam-la neenga irukkum idathirkke vanthu plan explain panni process seivom.</p>
+                  </div>
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50">
+                    <h4 className="font-bold text-[#001D3D] mb-2">Best LIC child plan for education?</h4>
+                    <p className="text-sm text-gray-600">LIC Amritbaal matrum Jeevan Tarun plans child education-ku romba nallathu.</p>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-3xl font-extrabold text-[#001D3D]">Free LIC Consultation in Nagapattinam</h2>
+              <div className="flex flex-wrap justify-center gap-6">
+                <a 
+                  href="https://wa.me/918838024747" 
+                  className="bg-[#25D366] text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 shadow-xl hover:bg-[#20ba5a] transition-all"
+                >
+                  <MessageCircle size={24} /> WhatsApp Inquiry (WhatsApp-la enquiry pannunga)
+                </a>
+                <button 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-[#001D3D] text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 shadow-xl hover:bg-[#003566] transition-all"
+                >
+                  <Mail size={24} /> Get Free Quote (Plan Comparison Form)
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="videos" className="py-24 md:py-32 px-4 md:px-8 bg-white">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
@@ -1199,6 +1367,7 @@ export default function App() {
         </div>
       </footer>
 
+      <FloatingButtons />
     </div>
   );
 }
