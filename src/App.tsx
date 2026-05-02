@@ -30,6 +30,13 @@ import { Policy, Video, Submission } from './types';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: 'Home', href: '#' },
@@ -40,11 +47,15 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-[#002B5B] text-white px-4 py-3 md:px-8 shadow-md">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 px-4 md:px-8 py-3 ${
+      scrolled ? 'top-4' : 'top-0'
+    }`}>
+      <div className={`max-w-7xl mx-auto flex justify-between items-center transition-all duration-500 rounded-2xl ${
+        scrolled ? 'glass px-6 py-3 shadow-xl border-white/40' : 'bg-transparent py-4'
+      }`}>
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="bg-white p-1 rounded">
+        <div className="flex items-center gap-2 group cursor-pointer">
+          <div className="bg-white p-1.5 rounded-xl shadow-sm group-hover:scale-110 transition-transform duration-300">
             <img 
               src="/lic.png" 
               alt="LIC Logo" 
@@ -52,25 +63,48 @@ const Navbar = () => {
               referrerPolicy="no-referrer"
             />
           </div>
+          <div className="hidden sm:block">
+            <p className={`font-bold text-lg leading-tight transition-colors ${scrolled ? 'text-[#001D3D]' : 'text-white'}`}>
+              Xavier A
+            </p>
+            <p className={`text-[10px] font-bold uppercase tracking-widest opacity-70 transition-colors ${scrolled ? 'text-[#001D3D]' : 'text-white'}`}>
+              LIC Advisor
+            </p>
+          </div>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <a 
               key={link.name} 
               href={link.href} 
-              className="hover:text-[#F2C94C] transition-colors font-medium relative group"
+              className={`transition-all font-semibold relative group ${
+                scrolled ? 'text-[#001D3D] hover:text-[#003566]' : 'text-white/90 hover:text-white'
+              }`}
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#F2C94C] transition-all group-hover:w-full"></span>
+              <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FFC300] transition-all duration-300 group-hover:w-full`}></span>
             </a>
           ))}
+          <motion.a
+            href="#contact"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-6 py-2.5 rounded-xl font-bold transition-all shadow-lg ${
+              scrolled ? 'bg-[#001D3D] text-white hover:bg-[#003566]' : 'bg-[#FFC300] text-[#001D3D] hover:bg-[#FFD60A]'
+            }`}
+          >
+            Get Expert Advice
+          </motion.a>
         </div>
 
         {/* Mobile Menu Toggle */}
         <div className="flex items-center gap-4 md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className={`p-2 rounded-xl transition-colors ${scrolled ? 'text-[#001D3D] hover:bg-black/5' : 'text-white hover:bg-white/10'}`}
+          >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -80,22 +114,30 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#002B5B] border-t border-white/10 overflow-hidden"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="md:hidden mt-4 mx-2"
           >
-            <div className="flex flex-col p-4 gap-4">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.name} 
-                  href={link.href} 
-                  onClick={() => setIsOpen(false)}
-                  className="text-lg hover:text-[#F2C94C]"
-                >
-                  {link.name}
-                </a>
-              ))}
+            <div className="glass rounded-2xl border-white/40 overflow-hidden shadow-2xl">
+              <div className="flex flex-col p-6 gap-4">
+                {navLinks.map((link) => (
+                  <a 
+                    key={link.name} 
+                    href={link.href} 
+                    onClick={() => setIsOpen(false)}
+                    className="text-lg font-bold text-[#001D3D] hover:text-[#003566] transition-colors flex items-center justify-between group"
+                  >
+                    {link.name}
+                    <ChevronRight size={18} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  </a>
+                ))}
+                <div className="pt-4 mt-2 border-t border-[#001D3D]/10">
+                  <button className="w-full bg-[#001D3D] text-white py-4 rounded-xl font-bold shadow-lg">
+                    Contact Us Now
+                  </button>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
@@ -106,86 +148,136 @@ const Navbar = () => {
 
 const Hero = ({ onSecureFuture, onGetQuote }: { onSecureFuture: () => void, onGetQuote: () => void }) => {
   return (
-    <section className="relative bg-[#F8F9FA] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1 space-y-6 z-10">
-          <motion.h1 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-4xl md:text-6xl font-extrabold text-[#002B5B] leading-tight"
+    <section className="relative min-h-screen flex items-center premium-gradient overflow-hidden pt-20">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1],
+            x: [0, 50, 0],
+            y: [0, -30, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute -top-[10%] -right-[5%] w-[500px] h-[500px] bg-[#FFC300] rounded-full blur-[120px]"
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.1, 1],
+            opacity: [0.05, 0.15, 0.05],
+            x: [0, -40, 0],
+            y: [0, 40, 0]
+          }}
+          transition={{ duration: 12, repeat: Infinity, delay: 1 }}
+          className="absolute -bottom-[10%] -left-[5%] w-[600px] h-[600px] bg-[#CAF0F8] rounded-full blur-[120px]"
+        />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24 flex flex-col lg:flex-row items-center gap-16 relative z-10">
+        <div className="flex-1 space-y-10 text-center lg:text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            Secure Your Future <br />
-            <span className="text-[#002B5B]">with Trusted Insurance</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-lg text-gray-600 max-w-lg"
-          >
-            Get personalized LIC policies for your family's financial security. 
-            Plan ahead for a better tomorrow.
-          </motion.p>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#FFC300] text-sm font-bold tracking-wider uppercase mb-6 shadow-xl">
+              Official LIC Insurance Advisor
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-[1.1] mb-6">
+              Empowering Your <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFC300] to-[#FFD60A]">Financial Legacy</span>
+            </h1>
+            <p className="text-lg text-white/80 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+              Join millions of families secured by India's most trusted insurance provider. 
+              Get customized plans that grow with your dreams.
+            </p>
+          </motion.div>
+
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-wrap gap-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-wrap justify-center lg:justify-start gap-6"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 20px rgba(0,0,0,0.1)" }}
+              whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
               onClick={onSecureFuture}
-              className="bg-[#F2C94C] text-[#002B5B] px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-[#e5be45] transition-all"
+              className="accent-gradient text-[#001D3D] px-10 py-5 rounded-2xl font-bold shadow-[0_20px_50px_rgba(255,195,0,0.3)] hover:shadow-[0_20px_50px_rgba(255,195,0,0.5)] transition-all flex items-center gap-3 text-lg"
             >
-              Secure Your Future
+              Secure Your Future <ArrowRight size={20} />
             </motion.button>
             <motion.button 
-              whileHover={{ scale: 1.05, backgroundColor: "#f3f4f6" }}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
               whileTap={{ scale: 0.95 }}
               onClick={onGetQuote}
-              className="border-2 border-gray-300 text-[#002B5B] px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all"
+              className="bg-white/10 backdrop-blur-md border-2 border-white/20 text-white px-10 py-5 rounded-2xl font-bold hover:bg-white/20 transition-all text-lg"
             >
-              Contact Us
+              Contact Expert
             </motion.button>
           </motion.div>
+
+          {/* Trust Badges */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="flex flex-wrap justify-center lg:justify-start items-center gap-8 pt-6 border-t border-white/10"
+          >
+            <div className="flex flex-col">
+              <span className="text-3xl font-bold text-white">6+</span>
+              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Years Experience</span>
+            </div>
+            <div className="h-10 w-px bg-white/10 hidden sm:block"></div>
+            <div className="flex flex-col">
+              <span className="text-3xl font-bold text-white">10k+</span>
+              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Happy Clients</span>
+            </div>
+            <div className="h-10 w-px bg-white/10 hidden sm:block"></div>
+            <div className="flex flex-col">
+              <span className="text-3xl font-bold text-white">95%</span>
+              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Claim Success</span>
+            </div>
+          </motion.div>
         </div>
-        <div className="flex-1 relative">
+
+        <div className="flex-1 relative w-full max-w-2xl lg:max-w-none">
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
             className="relative z-10"
           >
-            <img 
-              src="/family.png" 
-              alt="Happy Family" 
-              className="rounded-3xl shadow-2xl w-full object-cover aspect-[4/3]"
-              referrerPolicy="no-referrer"
-            />
+            <div className="relative p-4 glass border-white/40 rounded-[2.5rem] shadow-2xl overflow-hidden group">
+              <img 
+                src="/family.png" 
+                alt="Happy Family" 
+                className="rounded-[2rem] w-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-700"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              
+              {/* Floating Stat Card */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute bottom-8 left-8 glass px-6 py-4 rounded-2xl flex items-center gap-4 border-white/60 shadow-2xl"
+              >
+                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg">
+                  <Shield size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-[#001D3D] uppercase opacity-60">Protection Status</p>
+                  <p className="font-bold text-[#001D3D]">100% Guaranteed</p>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
-          {/* Decorative elements */}
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.3, 0.2]
-            }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="absolute -top-10 -right-10 w-40 h-40 bg-[#F2C94C]/20 rounded-full blur-3xl -z-0"
-          ></motion.div>
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.1, 1],
-              opacity: [0.1, 0.2, 0.1]
-            }}
-            transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-            className="absolute -bottom-10 -left-10 w-60 h-60 bg-[#002B5B]/10 rounded-full blur-3xl -z-0"
-          ></motion.div>
+
+          {/* Geometric accents */}
+          <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#FFC300] rounded-2xl rotate-12 opacity-20 animate-pulse"></div>
+          <div className="absolute -bottom-10 -left-10 w-32 h-32 border-2 border-[#CAF0F8] rounded-full opacity-20 animate-ping"></div>
         </div>
       </div>
     </section>
@@ -198,55 +290,66 @@ const PolicyCard: React.FC<{ policy: Policy, onInterested: (title: string) => vo
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -10, transition: { duration: 0.3 } }}
-      className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all flex flex-col text-center"
+      whileHover={{ y: -8, transition: { duration: 0.4 } }}
+      className="glass rounded-3xl p-6 border-white/40 flex flex-col group transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(0,29,61,0.15)]"
     >
-      {/* Title ABOVE the image */}
-      <h3 className="text-xl font-bold text-[#002B5B] mb-4">{policy.title}</h3>
+      <div className="flex justify-between items-start mb-6">
+        <div className="bg-white/50 p-2 rounded-xl shadow-inner">
+          <Shield className="text-[#001D3D]" size={20} />
+        </div>
+        <div className="flex flex-col items-end">
+          <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#001D3D]/40">Status</span>
+          <span className="text-[10px] font-bold text-green-600 flex items-center gap-1">
+            <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span> Active
+          </span>
+        </div>
+      </div>
+
+      <h3 className="text-lg font-extrabold text-[#001D3D] mb-3 group-hover:text-[#003566] transition-colors leading-tight">
+        {policy.title}
+      </h3>
       
       {policy.image && (
-        <div className="mb-4 overflow-hidden rounded-xl bg-gray-50 border border-gray-100">
+        <div className="mb-6 overflow-hidden rounded-2xl bg-white/30 border border-white/40 relative group-hover:border-[#FFC300]/50 group-hover:shadow-xl transition-all duration-500">
           <img 
             src={policy.image} 
             alt={policy.title} 
-            className="w-full h-auto object-contain max-h-[500px] mx-auto hover:scale-105 transition-transform duration-500"
+            className="w-full h-auto object-contain transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
             referrerPolicy="no-referrer"
           />
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#FFC300]/0 to-[#FFC300]/0 group-hover:from-[#FFC300]/5 group-hover:to-transparent transition-all duration-500"></div>
         </div>
       )}
 
-      {/* Interested button BELOW the image */}
-      <motion.button 
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => onInterested(policy.title)}
-        className="w-full bg-[#F2C94C] text-[#002B5B] py-3 rounded-lg font-bold hover:bg-[#e5be45] transition-colors shadow-md mb-6"
-      >
-        Interested
-      </motion.button>
-
-      {policy.description && (
-        <p className="text-sm text-gray-500 mb-4 flex-grow">
-          {policy.description}
-        </p>
-      )}
+      <p className="text-[#4A4A4A] text-sm leading-relaxed mb-6 flex-grow font-medium group-hover:text-[#1A1A1A] transition-colors">
+        {policy.description}
+      </p>
 
       {(policy.term || policy.maturity) && (
-        <div className="space-y-1 text-left inline-block mx-auto">
+        <div className="grid grid-cols-2 gap-3 mb-6">
           {policy.term && (
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-              <span className="w-1.5 h-1.5 bg-[#F2C94C] rounded-full"></span>
-              Term: {policy.term}
+            <div className="bg-white/50 rounded-xl p-3 border border-white/60">
+              <p className="text-[10px] font-extrabold text-[#001D3D] uppercase tracking-widest mb-1">Term</p>
+              <p className="text-[13px] font-bold text-[#001D3D]/80">{policy.term}</p>
             </div>
           )}
           {policy.maturity && (
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-              <span className="w-1.5 h-1.5 bg-[#F2C94C] rounded-full"></span>
-              {policy.maturity}
+            <div className="bg-white/50 rounded-xl p-3 border border-white/60">
+              <p className="text-[10px] font-extrabold text-[#001D3D] uppercase tracking-widest mb-1">Maturity</p>
+              <p className="text-[13px] font-bold text-[#001D3D]/80 truncate">{policy.maturity.split(' ')[0]} Returns</p>
             </div>
           )}
         </div>
       )}
+
+      <motion.button 
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={() => onInterested(policy.title)}
+        className="w-full bg-[#001D3D] text-white py-3 rounded-xl font-bold hover:bg-[#003566] transition-all shadow-[0_8px_20px_rgba(0,29,61,0.1)] flex items-center justify-center gap-2 text-sm"
+      >
+        Plan Details <ChevronRight size={16} />
+      </motion.button>
     </motion.div>
   );
 };
@@ -276,12 +379,10 @@ const PolicyInterestForm = ({
     setIsSubmitting(true);
     
     try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwaPLwjpHJxy77T7Nkh-PqZXMDObCCrlar3Fi02jhESUNCuezKFhVMuf9RjmaDojOP6/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbzLWR3pDQ21K0QhHeMFhRD6XNXYbQwAVglqvY4UhkuRhnbIjih2KhD9iI5LbOrnU9F9/exec", {
         method: "POST",
-        mode: "no-cors", // Required for Google Apps Script
-        headers: { 
-          "Content-Type": "application/json",
-        },
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           "formType": "Policy Interest",
           "Policy Name": policyName,
@@ -294,11 +395,8 @@ const PolicyInterestForm = ({
         })
       });
 
-      // With no-cors, we can't check response.ok, but if it doesn't throw, it's usually sent
       setIsSuccess(true);
-      setTimeout(() => {
-        onClose();
-      }, 3000);
+      setTimeout(onClose, 3000);
     } catch (error) {
       console.error("Submission error:", error);
       alert("Network error. Please try again.");
@@ -308,57 +406,56 @@ const PolicyInterestForm = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#001D3D]/80 backdrop-blur-md">
       <motion.div 
         initial={{ opacity: 0, scale: 0.9, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 40 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden relative"
+        className="glass rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] w-full max-w-2xl overflow-hidden relative border-white/20"
       >
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/80 hover:text-white z-10 p-2 hover:bg-white/10 rounded-full transition-colors"
+          className="absolute top-6 right-6 text-[#001D3D]/50 hover:text-[#001D3D] z-10 p-2 hover:bg-black/5 rounded-full transition-colors"
         >
           <X size={24} />
         </button>
 
         {/* Header */}
-        <div className="bg-[#001D3D] p-6 text-white flex items-center gap-4">
+        <div className="premium-gradient p-8 text-white flex items-center gap-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
           <motion.div 
             animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="bg-[#F2C94C] p-3 rounded-lg"
+            transition={{ duration: 4, repeat: Infinity }}
+            className="accent-gradient p-4 rounded-2xl shadow-xl"
           >
-            <Shield className="text-[#001D3D]" size={24} />
+            <Shield className="text-[#001D3D]" size={32} />
           </motion.div>
           <div>
-            <h2 className="text-xl font-bold">Legacy Assurance Portal</h2>
-            <p className="text-xs text-gray-400">Government Guaranteed Protection</p>
+            <h2 className="text-2xl font-bold">Plan Your Legacy</h2>
+            <p className="text-sm text-white/60 font-medium tracking-wide">Secure Future • Guaranteed Protection</p>
           </div>
         </div>
 
         {/* Form Content */}
-        <div className="p-8 space-y-6">
+        <div className="p-8 md:p-12">
           <AnimatePresence mode="wait">
             {isSuccess ? (
               <motion.div 
                 key="success"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="py-12 flex flex-col items-center justify-center text-center space-y-4"
+                className="py-12 flex flex-col items-center justify-center text-center space-y-6"
               >
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", damping: 12 }}
-                  className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center"
-                >
-                  <CheckCircle2 size={48} />
-                </motion.div>
-                <h3 className="text-2xl font-bold text-[#002B5B]">Request Submitted!</h3>
-                <p className="text-gray-600 max-w-xs">
-                  Xavier A will contact you shortly to discuss the <span className="font-bold">{policyName}</span> plan.
-                </p>
+                <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center shadow-inner">
+                  <CheckCircle2 size={56} />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-extrabold text-[#001D3D] mb-2">Success!</h3>
+                  <p className="text-[#4A4A4A] max-w-xs font-medium">
+                    We've received your interest in <span className="text-[#001D3D] font-bold">{policyName}</span>. 
+                    Xavier A will reach out shortly.
+                  </p>
+                </div>
               </motion.div>
             ) : (
               <motion.form 
@@ -367,31 +464,36 @@ const PolicyInterestForm = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="space-y-6"
+                className="space-y-8"
               >
                 {/* Selected Policy Display */}
-                <div className="bg-[#F8F9FA] p-3 rounded-lg border-l-4 border-[#F2C94C]">
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Selected Policy</p>
-                  <p className="text-lg font-bold text-[#002B5B]">{policyName}</p>
+                <div className="bg-[#CAF0F8]/30 p-5 rounded-2xl border border-[#CAF0F8] flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] font-bold text-[#001D3D]/50 uppercase tracking-widest mb-1">Inquiry for</p>
+                    <p className="text-xl font-extrabold text-[#001D3D]">{policyName}</p>
+                  </div>
+                  <div className="bg-white/80 px-3 py-1.5 rounded-lg text-[10px] font-extrabold text-[#001D3D] shadow-sm uppercase tracking-wider">
+                    Govt. Guaranteed
+                  </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-[#002B5B] uppercase tracking-wider">Full Name</label>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">Full Name</label>
                     <input 
                       required
                       type="text" 
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Enter your full legal name"
-                      className="w-full bg-[#E9ECEF] border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#F2C94C] outline-none transition-all"
+                      placeholder="e.g. John Doe"
+                      className="w-full bg-white border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-semibold text-[#001D3D] focus:border-[#FFC300] focus:ring-4 focus:ring-[#FFC300]/10 outline-none transition-all shadow-sm"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-[#002B5B] uppercase tracking-wider">Contact Number</label>
-                    <div className="flex gap-2">
-                      <div className="bg-[#E9ECEF] rounded-lg px-3 py-3 flex items-center gap-2 text-sm font-bold text-gray-600 cursor-pointer hover:bg-[#dee2e6] transition-colors">
-                        +91 <ChevronDown size={14} />
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">Phone Number</label>
+                    <div className="flex gap-3">
+                      <div className="bg-white rounded-2xl px-4 py-4 flex items-center gap-2 text-sm font-bold text-[#001D3D] shadow-sm">
+                        +91
                       </div>
                       <input 
                         required
@@ -399,96 +501,86 @@ const PolicyInterestForm = ({
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="80567 39438"
-                        className="flex-1 bg-[#E9ECEF] border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#F2C94C] outline-none transition-all"
+                        className="flex-1 bg-white border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-semibold text-[#001D3D] focus:border-[#FFC300] focus:ring-4 focus:ring-[#FFC300]/10 outline-none transition-all shadow-sm"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-[#002B5B] uppercase tracking-wider">Policy Type</label>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">Policy Category</label>
                     <div className="relative">
                       <select 
                         value={policyType}
                         onChange={(e) => setPolicyType(e.target.value)}
-                        className="w-full bg-[#E9ECEF] border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#F2C94C] outline-none appearance-none cursor-pointer"
+                        className="w-full bg-white border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-semibold text-[#001D3D] focus:border-[#FFC300] focus:ring-4 focus:ring-[#FFC300]/10 outline-none appearance-none cursor-pointer shadow-sm"
                       >
                         <option>Endowment</option>
                         <option>Money Back</option>
                         <option>Term Assurance</option>
+                        <option>Whole Life</option>
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" size={16} />
+                      <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-[#001D3D]/40 pointer-events-none" size={18} />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-[#002B5B] uppercase tracking-wider">Policy Term / Year</label>
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">Planned Term</label>
                     <div className="relative">
                       <select 
                         value={term}
                         onChange={(e) => setTerm(e.target.value)}
-                        className="w-full bg-[#E9ECEF] border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#F2C94C] outline-none appearance-none cursor-pointer"
+                        className="w-full bg-white border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-semibold text-[#001D3D] focus:border-[#FFC300] focus:ring-4 focus:ring-[#FFC300]/10 outline-none appearance-none cursor-pointer shadow-sm"
                       >
                         <option>10 Years</option>
                         <option>15 Years</option>
                         <option>20 Years</option>
-                        <option>25 Years</option>
+                        <option>25+ Years</option>
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" size={16} />
+                      <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-[#001D3D]/40 pointer-events-none" size={18} />
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-xs font-bold text-[#002B5B] uppercase tracking-wider">Beneficiary Focus</label>
-                  <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">Who is this for?</label>
+                  <div className="grid grid-cols-2 gap-6">
                     <motion.button 
                       type="button"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setBeneficiary('child')}
-                      className={`flex items-center justify-center gap-3 p-4 rounded-lg border-2 transition-all ${beneficiary === 'child' ? 'border-[#F2C94C] bg-white shadow-md' : 'border-transparent bg-[#F1F3F5] text-gray-500'}`}
+                      className={`flex items-center justify-center gap-3 p-5 rounded-2xl border-2 transition-all shadow-sm ${beneficiary === 'child' ? 'border-[#FFC300] bg-[#FFC300]/5 text-[#001D3D]' : 'border-transparent bg-white text-gray-400'}`}
                     >
-                      <Smile size={20} className={beneficiary === 'child' ? 'text-[#002B5B]' : 'text-gray-400'} />
-                      <span className="text-sm font-bold">For Child</span>
+                      <Smile size={20} />
+                      <span className="text-sm font-bold">Child Education/Marriage</span>
                     </motion.button>
                     <motion.button 
                       type="button"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setBeneficiary('parent')}
-                      className={`flex items-center justify-center gap-3 p-4 rounded-lg border-2 transition-all ${beneficiary === 'parent' ? 'border-[#F2C94C] bg-white shadow-md' : 'border-transparent bg-[#F1F3F5] text-gray-500'}`}
+                      className={`flex items-center justify-center gap-3 p-5 rounded-2xl border-2 transition-all shadow-sm ${beneficiary === 'parent' ? 'border-[#FFC300] bg-[#FFC300]/5 text-[#001D3D]' : 'border-transparent bg-white text-gray-400'}`}
                     >
-                      <User size={20} className={beneficiary === 'parent' ? 'text-[#002B5B]' : 'text-gray-400'} />
-                      <span className="text-sm font-bold">For Parent</span>
+                      <User size={20} />
+                      <span className="text-sm font-bold">Retirement/Self</span>
                     </motion.button>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-[#002B5B] uppercase tracking-wider">Primary Goal</label>
-                  <textarea 
-                    rows={3}
-                    value={goal}
-                    onChange={(e) => setGoal(e.target.value)}
-                    placeholder="What are you looking to achieve? (e.g. Higher Education, Retirement, Wealth Creation)"
-                    className="w-full bg-[#E9ECEF] border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#F2C94C] outline-none resize-none transition-all"
-                  ></textarea>
-                </div>
-
-                <div className="flex gap-4 pt-4">
+                <div className="flex flex-col md:flex-row gap-6 pt-4">
                   <button 
                     type="button"
                     onClick={onClose}
-                    className="flex-1 py-4 font-bold text-gray-500 hover:text-gray-700 transition-colors"
+                    className="flex-1 py-4 font-bold text-gray-400 hover:text-[#001D3D] transition-colors"
                   >
-                    Cancel
+                    Discard
                   </button>
                   <motion.button 
                     disabled={isSubmitting}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`flex-[2] bg-[#001D3D] text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#002B5B]'}`}
+                    className={`flex-[2] premium-gradient text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-2xl ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-[0_15px_30px_rgba(0,29,61,0.3)]'}`}
                   >
                     {isSubmitting ? (
                       <motion.div 
@@ -497,14 +589,14 @@ const PolicyInterestForm = ({
                         className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full"
                       />
                     ) : (
-                      <>Submit Request <ArrowRight size={18} /></>
+                      <>Get Personalized Proposal <ArrowRight size={20} /></>
                     )}
                   </motion.button>
                 </div>
 
-                <div className="flex items-center justify-center gap-2 text-[10px] text-gray-400 font-medium">
-                  <Lock size={10} />
-                  Your information is securely encrypted and held in strict confidence.
+                <div className="flex items-center justify-center gap-3 text-[10px] text-[#001D3D]/30 font-bold uppercase tracking-widest">
+                  <Lock size={12} />
+                  Privacy Guaranteed • IRDAI Regulated
                 </div>
               </motion.form>
             )}
@@ -515,40 +607,62 @@ const PolicyInterestForm = ({
   );
 };
 
-const VideoCard: React.FC<{ title: string, thumbnail: string, category: string }> = ({ title, thumbnail, category }) => {
+const VideoCard: React.FC<{ title: string, thumbnail: string, category: string, url?: string }> = ({ title, thumbnail, category, url }) => {
+  const handleClick = () => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <motion.div 
-      whileHover={{ scale: 1.02 }}
-      className="group relative overflow-hidden rounded-2xl bg-gray-900 aspect-video cursor-pointer"
+      onClick={handleClick}
+      whileHover={{ y: -8 }}
+      className="group relative overflow-hidden rounded-[2.5rem] bg-[#001D3D] aspect-video cursor-pointer shadow-2xl border border-white/10"
     >
       <img 
         src={thumbnail} 
         alt={title} 
-        className="w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity"
+        className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-all duration-700 group-hover:scale-110"
         referrerPolicy="no-referrer"
       />
-      <div className="absolute inset-0 flex flex-col justify-between p-4">
+      
+      {/* Overlay Details */}
+      <div className="absolute inset-0 flex flex-col justify-between p-8">
         <div className="flex justify-between items-start">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
-              <img src="/lic.png" className="h-4" alt="LIC" referrerPolicy="no-referrer" />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 glass border-white/40 rounded-xl flex items-center justify-center p-2">
+              <img src="/lic.png" className="h-5" alt="LIC" referrerPolicy="no-referrer" />
             </div>
-            <span className="text-white text-xs font-medium">{category}</span>
+            <span className="text-white text-[10px] font-extrabold uppercase tracking-widest bg-white/10 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10">
+              {category}
+            </span>
           </div>
-          <button className="text-white opacity-70 hover:opacity-100">
+          <button className="text-white/50 hover:text-white transition-colors">
             <MoreVertical size={20} />
           </button>
         </div>
         
         <div className="flex flex-col items-center justify-center absolute inset-0">
-          <div className="w-14 h-14 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Play fill="white" className="text-white ml-1" size={24} />
-          </div>
+          <motion.div 
+            whileHover={{ scale: 1.1 }}
+            className="w-16 h-16 glass border-white/60 rounded-full flex items-center justify-center shadow-2xl group-hover:bg-[#FFC300] transition-all duration-500"
+          >
+            <Play fill="currentColor" className="text-white group-hover:text-[#001D3D] ml-1" size={28} />
+          </motion.div>
         </div>
 
-        <div className="z-10">
-          <h4 className="text-white font-bold text-lg leading-tight">{title}</h4>
+        <div className="z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+          <h4 className="text-white font-extrabold text-xl leading-tight drop-shadow-lg">{title}</h4>
+          <p className="text-white/60 text-xs font-bold mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            Click to watch presentation
+          </p>
         </div>
+      </div>
+      
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/10">
+        <div className="w-0 group-hover:w-1/3 h-full bg-[#FFC300] transition-all duration-[3000ms] ease-out"></div>
       </div>
     </motion.div>
   );
@@ -568,12 +682,10 @@ const ContactSection = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwaPLwjpHJxy77T7Nkh-PqZXMDObCCrlar3Fi02jhESUNCuezKFhVMuf9RjmaDojOP6/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbzLWR3pDQ21K0QhHeMFhRD6XNXYbQwAVglqvY4UhkuRhnbIjih2KhD9iI5LbOrnU9F9/exec", {
         method: "POST",
-        mode: "no-cors", // Required for Google Apps Script
-        headers: { 
-          "Content-Type": "application/json",
-        },
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           "formType": "Contact Form",
           "Name": formData.name,
@@ -582,7 +694,6 @@ const ContactSection = () => {
         })
       });
 
-      // With no-cors, we can't check response.ok, but if it doesn't throw, it's usually sent
       setIsSubmitted(true);
     } catch (error) {
       console.error("Submission error:", error);
@@ -593,68 +704,79 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="bg-[#002B5B] text-white py-20 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-center mb-16"
-        >
-          Contact Us
-        </motion.h2>
+    <section id="contact" className="premium-gradient text-white py-24 md:py-32 px-4 md:px-8 relative overflow-hidden">
+      {/* Decorative Orbs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#FFC300] opacity-[0.05] blur-[100px] -mr-64 -mt-64"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#CAF0F8] opacity-[0.05] blur-[100px] -ml-64 -mb-64"></div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-20">
+          <motion.span 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block"
+          >
+            Get in Touch
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-5xl font-extrabold text-white"
+          >
+            Ready to Secure <br /> Your Future?
+          </motion.h2>
+        </div>
         
-        <div className="grid md:grid-cols-2 gap-16">
-          {/* Info */}
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-24 items-start">
+          {/* Info Side */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-10"
+            className="lg:col-span-2 space-y-12"
           >
-            <div className="flex items-start gap-5">
-              <motion.div 
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="w-12 h-12 bg-[#F2C94C] rounded-full flex items-center justify-center shrink-0"
-              >
-                <MessageCircle className="text-[#002B5B]" />
-              </motion.div>
+            <div className="group flex items-start gap-6">
+              <div className="w-16 h-16 glass border-white/20 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-[#FFC300] transition-all duration-500 group-hover:rotate-6">
+                <MessageCircle className="text-white group-hover:text-[#001D3D]" size={28} />
+              </div>
               <div>
-                <h4 className="text-lg font-bold text-[#F2C94C]">WhatsApp</h4>
+                <h4 className="text-xs font-extrabold text-[#FFC300] uppercase tracking-widest mb-2">Direct WhatsApp</h4>
                 <a 
                   href="https://wa.me/918838024747" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-xl hover:text-[#F2C94C] transition-colors"
+                  className="text-xl md:text-2xl font-bold hover:text-[#FFC300] transition-colors"
                 >
                   +91 8838024747
                 </a>
+                <p className="text-white/40 text-sm mt-2 font-medium italic">Instant response available 24/7</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-5">
-              <motion.div 
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="w-12 h-12 bg-[#F2C94C] rounded-full flex items-center justify-center shrink-0"
-              >
-                <Mail className="text-[#002B5B]" />
-              </motion.div>
+            <div className="group flex items-start gap-6">
+              <div className="w-16 h-16 glass border-white/20 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-[#FFC300] transition-all duration-500 group-hover:rotate-6">
+                <Mail className="text-white group-hover:text-[#001D3D]" size={28} />
+              </div>
               <div>
-                <h4 className="text-lg font-bold text-[#F2C94C]">Email</h4>
-                <p className="text-xl">xavier@lic.com</p>
+                <h4 className="text-xs font-extrabold text-[#FFC300] uppercase tracking-widest mb-2">Email Inquiry</h4>
+                <a 
+                  href="mailto:xavierajohn234@gmail.com"
+                  className="text-xl md:text-2xl font-bold hover:text-[#FFC300] transition-colors"
+                >
+                  xavierajohn234@gmail.com
+                </a>
+                <p className="text-white/40 text-sm mt-2 font-medium italic">Professional policy advice</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-5">
-              <motion.div 
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="w-12 h-12 bg-[#F2C94C] rounded-full flex items-center justify-center shrink-0"
-              >
-                <MapPin className="text-[#002B5B]" />
-              </motion.div>
+            <div className="group flex items-start gap-6">
+              <div className="w-16 h-16 glass border-white/20 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-[#FFC300] transition-all duration-500 group-hover:rotate-6">
+                <MapPin className="text-white group-hover:text-[#001D3D]" size={28} />
+              </div>
               <div>
-                <h4 className="text-lg font-bold text-[#F2C94C]">Office Address</h4>
-                <p className="text-xl leading-relaxed">
+                <h4 className="text-xs font-extrabold text-[#FFC300] uppercase tracking-widest mb-2">Visit Office</h4>
+                <p className="text-lg md:text-xl font-bold leading-relaxed text-white/80">
                   32, VOC Street, L/G Floor, Kasi Arcade Annexe,<br />
                   Kaikankuppam, Alwarthirunagar, Chennai – 600087
                 </p>
@@ -662,8 +784,8 @@ const ContactSection = () => {
             </div>
           </motion.div>
 
-          {/* Form */}
-          <div className="relative">
+          {/* Form Side */}
+          <div className="lg:col-span-3">
             <AnimatePresence mode="wait">
               {isSubmitted ? (
                 <motion.div 
@@ -671,25 +793,22 @@ const ContactSection = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  className="h-full flex flex-col items-center justify-center text-center space-y-6 bg-white/5 p-8 rounded-3xl backdrop-blur-sm border border-white/10 py-16"
+                  className="h-full flex flex-col items-center justify-center text-center space-y-8 glass p-12 rounded-[2.5rem] border-white/20 py-24 shadow-2xl"
                 >
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", damping: 12 }}
-                    className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center"
-                  >
-                    <CheckCircle2 size={48} />
-                  </motion.div>
-                  <h3 className="text-2xl font-bold text-white">Message Sent!</h3>
-                  <p className="text-gray-300 max-w-xs">
-                    Thank you for reaching out. Xavier A will get back to you as soon as possible.
-                  </p>
+                  <div className="w-24 h-24 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center shadow-xl">
+                    <CheckCircle2 size={56} />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-extrabold text-white mb-3">Message Sent Successfully!</h3>
+                    <p className="text-white/60 max-w-sm mx-auto font-medium leading-relaxed">
+                      Thank you for reaching out. Xavier A will personally review your inquiry and get back to you within 24 hours.
+                    </p>
+                  </div>
                   <button 
                     onClick={() => setIsSubmitted(false)}
-                    className="text-[#F2C94C] font-bold hover:underline"
+                    className="text-[#FFC300] font-extrabold uppercase tracking-widest text-sm hover:underline"
                   >
-                    Send another message
+                    Send Another Message
                   </button>
                 </motion.div>
               ) : (
@@ -699,59 +818,66 @@ const ContactSection = () => {
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className="space-y-6 bg-white/5 p-8 rounded-3xl backdrop-blur-sm border border-white/10"
+                  className="glass rounded-[2.5rem] border-white/20 shadow-2xl overflow-hidden"
                 >
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-300">Name</label>
-                      <input 
-                        required
-                        type="text" 
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Your Name"
-                        className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:border-[#F2C94C] transition-colors"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-300">Phone Number</label>
-                      <input 
-                        required
-                        type="tel" 
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="Phone Number"
-                        className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:border-[#F2C94C] transition-colors"
-                      />
-                    </div>
+                  <div className="bg-[#001D3D] p-8 text-white">
+                    <h3 className="text-xl font-bold">Inquiry Form</h3>
+                    <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mt-1">Get a response within 24 hours</p>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300">Message</label>
-                    <textarea 
-                      required
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="Your Message"
-                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:border-[#F2C94C] transition-colors resize-none"
-                    ></textarea>
+                  
+                  <div className="p-8 md:p-10 space-y-8">
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <div className="space-y-3">
+                        <label className="text-[11px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">Your Full Name</label>
+                        <input 
+                          required
+                          type="text" 
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          placeholder="e.g. John Doe"
+                          className="w-full bg-white border-2 border-[#001D3D]/5 rounded-xl px-6 py-4 focus:outline-none focus:border-[#FFC300] focus:bg-white transition-all font-bold text-[#001D3D] placeholder:text-gray-500 shadow-sm"
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <label className="text-[11px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">Phone Number</label>
+                        <input 
+                          required
+                          type="tel" 
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          placeholder="e.g. 80567 39438"
+                          className="w-full bg-white border-2 border-[#001D3D]/5 rounded-xl px-6 py-4 focus:outline-none focus:border-[#FFC300] focus:bg-white transition-all font-bold text-[#001D3D] placeholder:text-gray-500 shadow-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-[11px] font-bold text-[#001D3D] uppercase tracking-widest ml-1">How can we help?</label>
+                      <textarea 
+                        required
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Tell us about your requirements..."
+                        className="w-full bg-white border-2 border-[#001D3D]/5 rounded-xl px-6 py-4 focus:outline-none focus:border-[#FFC300] focus:bg-white transition-all font-bold text-[#001D3D] placeholder:text-gray-500 shadow-sm resize-none"
+                      ></textarea>
+                    </div>
+                    <motion.button 
+                      disabled={isSubmitting}
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full accent-gradient text-[#001D3D] py-5 rounded-2xl font-extrabold text-lg shadow-xl flex items-center justify-center gap-4 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
+                      {isSubmitting ? (
+                        <motion.div 
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-6 h-6 border-2 border-[#001D3D]/30 border-t-[#001D3D] rounded-full"
+                        />
+                      ) : (
+                        <>Send Your Message <ArrowRight size={20} /></>
+                      )}
+                    </motion.button>
                   </div>
-                  <motion.button 
-                    disabled={isSubmitting}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`w-full bg-[#F2C94C] text-[#002B5B] py-4 rounded-xl font-bold text-lg hover:bg-[#e5be45] transition-all shadow-lg flex items-center justify-center gap-3 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-                  >
-                    {isSubmitting ? (
-                      <motion.div 
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-6 h-6 border-2 border-[#002B5B]/30 border-t-[#002B5B] rounded-full"
-                      />
-                    ) : (
-                      'Send Message'
-                    )}
-                  </motion.button>
                 </motion.form>
               )}
             </AnimatePresence>
@@ -857,17 +983,19 @@ export default function App() {
     if (saved) return JSON.parse(saved);
     return [
       {
-        id: '1',
-        title: "Understanding LIC Policies",
-        thumbnail: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop",
-        category: "Understanding LIC Policies"
+        id: 'new-1',
+        title: "2025 ஆண்டின் சிறந்த 5 எல் ஐ சி பாலிசி Best 5 LIC policy 2025 New update tamil",
+        thumbnail: "https://img.youtube.com/vi/RqFOd0SX2hk/maxresdefault.jpg",
+        category: "Top Policies 2025",
+        url: "https://youtu.be/RqFOd0SX2hk?si=vH_EUTNRFPR4_gar"
       },
       {
-        id: '2',
-        title: "Benefits of Term insurance",
-        thumbnail: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop",
-        category: "Benefits of Term insurance"
-      }
+        id: 'new-2',
+        title: "LIC பாலிசி வாழ்க்கைக்கு உதவுமா? New Lic Jeevan Anand policy explained in Tamil",
+        thumbnail: "https://img.youtube.com/vi/kwkrJAZJbys/maxresdefault.jpg",
+        category: "Policy Analysis",
+        url: "https://youtu.be/kwkrJAZJbys?si=LAG78cRcts8WixkP"
+      },
     ];
   });
 
@@ -876,7 +1004,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-[#F2C94C] selection:text-[#002B5B] overflow-x-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans text-[#1A1A1A] selection:bg-[#FFC300]/30 selection:text-[#001D3D] overflow-x-hidden">
       <Navbar />
       
       <AnimatePresence>
@@ -889,92 +1017,125 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <main className="pt-16 md:pt-20">
+      <main>
         <Hero 
           onSecureFuture={() => document.getElementById('policies')?.scrollIntoView({ behavior: 'smooth' })}
           onGetQuote={() => handleInterested('General Quote')}
         />
 
         {/* About Us Section */}
-        <section id="about" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-12">
+        <section id="about" className="py-24 md:py-32 px-4 md:px-8 relative">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 md:gap-24">
             <motion.div 
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              whileHover={{ scale: 1.02 }}
-              className="flex-1"
+              transition={{ duration: 1 }}
+              className="flex-1 relative"
             >
-              <img 
-                src="/sir.png" 
-                alt="Xavier A - Insurance Advisor" 
-                className="rounded-3xl shadow-xl w-full object-cover object-top aspect-[4/5] transition-transform duration-500 hover:scale-[1.01]"
-                referrerPolicy="no-referrer"
-              />
+              <div className="relative group">
+                <div className="absolute -inset-4 bg-gradient-to-tr from-[#FFC300] to-[#FFD60A] rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                <div className="relative glass p-4 rounded-[2.5rem] border-white/60 shadow-2xl overflow-hidden">
+                  <img 
+                    src="/sir.png" 
+                    alt="Xavier A - Insurance Advisor" 
+                    className="rounded-[2rem] w-full object-cover object-top aspect-[4/5] grayscale hover:grayscale-0 transition-all duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute bottom-10 right-10 glass px-6 py-4 rounded-2xl border-white/40 shadow-xl">
+                    <p className="text-[10px] font-extrabold text-[#001D3D]/40 uppercase tracking-widest mb-1">Experience</p>
+                    <p className="text-xl font-extrabold text-[#001D3D]">6+ Years</p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
+
             <motion.div 
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="flex-1"
+              transition={{ duration: 1 }}
+              className="flex-1 space-y-10"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-[#002B5B] mb-6">About Us</h2>
-              <p className="text-xl text-gray-700 leading-relaxed font-medium mb-8">
-                “I am Xavier, residing in Valasaravakkam, and working as an Insurance Advisor with 6 years of experience. I have built a strong reputation by maintaining excellent relationships with my clients and delivering consistent performance. I am here to guide you towards the best solutions to enjoy a secure and happy retirement.”
-              </p>
+              <div>
+                <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Meet Your Advisor</span>
+                <h2 className="text-4xl md:text-6xl font-extrabold text-[#001D3D] leading-tight mb-8">
+                  Guiding Your Path to <br />
+                  <span className="text-gradient">Financial Freedom</span>
+                </h2>
+                <div className="space-y-6">
+                  <p className="text-xl text-[#4A4A4A] leading-relaxed font-medium">
+                    “I am Xavier, residing in Valasaravakkam, and working as an Insurance Advisor with <span className="text-[#001D3D] font-bold">6 years of professional experience</span>.”
+                  </p>
+                  <p className="text-lg text-[#4A4A4A]/80 leading-relaxed font-medium">
+                    I have built a strong reputation by maintaining excellent relationships with my clients and delivering consistent performance. I am here to guide you towards the best solutions to enjoy a secure and happy retirement.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-8 pt-6">
+                <div>
+                  <h4 className="text-2xl font-extrabold text-[#001D3D] mb-1">250</h4>
+                  <p className="text-xs font-bold text-[#4A4A4A]/60 uppercase tracking-widest">Policies Managed</p>
+                </div>
+                <div>
+                  <h4 className="text-2xl font-extrabold text-[#001D3D] mb-1">93%</h4>
+                  <p className="text-xs font-bold text-[#4A4A4A]/60 uppercase tracking-widest">Client Satisfaction</p>
+                </div>
+              </div>
+
               <motion.button 
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-[#002B5B] text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-[#001f42] transition-all flex items-center gap-2"
+                className="bg-[#001D3D] text-white px-10 py-5 rounded-2xl font-bold shadow-[0_20px_50px_rgba(0,29,61,0.15)] hover:bg-[#003566] transition-all flex items-center gap-3 text-lg"
               >
-                Contact Me <ArrowRight size={20} />
+                Schedule a Consultation <ArrowRight size={22} />
               </motion.button>
             </motion.div>
           </div>
         </section>
 
         {/* Featured Policies */}
-        <section id="policies" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-center text-[#002B5B] mb-12"
-          >
-            Future Policies
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {policies.filter(p => !p.isHidden).map((policy) => (
-              <PolicyCard 
-                key={policy.id} 
-                policy={policy}
-                onInterested={handleInterested}
-              />
-            ))}
+        <section id="policies" className="py-24 md:py-32 bg-[#F1F5F9] relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#F8FAFC] to-transparent"></div>
+          <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+            <div className="text-center mb-20">
+              <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Exclusive Plans</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-[#001D3D]">Future-Ready Policies</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {policies.filter(p => !p.isHidden).map((policy) => (
+                <PolicyCard 
+                  key={policy.id} 
+                  policy={policy}
+                  onInterested={handleInterested}
+                />
+              ))}
+            </div>
           </div>
         </section>
 
         {/* Policy Videos */}
-        <section id="videos" className="py-20 px-4 md:px-8 bg-gray-50">
+        <section id="videos" className="py-24 md:py-32 px-4 md:px-8 bg-white">
           <div className="max-w-7xl mx-auto">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-center text-[#002B5B] mb-12"
-            >
-              Policy Videos
-            </motion.h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+              <div className="max-w-2xl">
+                <span className="text-[#FFC300] font-extrabold uppercase tracking-[0.3em] text-xs mb-4 block">Education Portal</span>
+                <h2 className="text-4xl md:text-5xl font-extrabold text-[#001D3D]">Policy Masterclass</h2>
+              </div>
+              <button className="text-[#001D3D] font-bold border-b-2 border-[#FFC300] pb-1 hover:text-[#003566] transition-colors">
+                View All Videos
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {videos.map((video) => (
                 <VideoCard 
                   key={video.id} 
                   title={video.title} 
                   thumbnail={video.thumbnail} 
                   category={video.category} 
+                  url={video.url}
                 />
               ))}
             </div>
@@ -985,21 +1146,55 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#001D3D] text-white py-8 px-4 border-t border-white/5">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-sm text-gray-400">
-            © 2024 LIC Agent | <a href="#" className="hover:text-white">Privacy Policy</a> | <a href="#" className="hover:text-white">Terms of Use</a>
-          </p>
-          <div className="flex items-center gap-4">
-            <a 
-              href="https://wa.me/918838024747" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="bg-white/10 px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-white/20 transition-all cursor-pointer"
-            >
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              WhatsApp Online
-            </a>
+      <footer className="bg-[#000F1F] text-white py-16 px-4 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#FFC300] opacity-[0.02] blur-[80px]"></div>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-12 mb-16">
+            <div className="md:col-span-2 space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="bg-white p-1.5 rounded-xl">
+                  <img src="/lic.png" alt="LIC" className="h-8" referrerPolicy="no-referrer" />
+                </div>
+                <h3 className="text-2xl font-extrabold">Xavier A</h3>
+              </div>
+              <p className="text-white/40 font-medium max-w-sm leading-relaxed">
+                Authorized LIC Insurance Advisor dedicated to providing expert financial guidance and secure life insurance solutions for families across India.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-[#FFC300] font-extrabold uppercase tracking-widest text-xs mb-6">Quick Links</h4>
+              <ul className="space-y-4 text-sm font-bold text-white/60">
+                <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
+                <li><a href="#about" className="hover:text-white transition-colors">About Advisor</a></li>
+                <li><a href="#policies" className="hover:text-white transition-colors">Latest Policies</a></li>
+                <li><a href="#videos" className="hover:text-white transition-colors">Knowledge Base</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-[#FFC300] font-extrabold uppercase tracking-widest text-xs mb-6">Support</h4>
+              <ul className="space-y-4 text-sm font-bold text-white/60">
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
+                <li className="flex items-center gap-2 text-green-500">
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                  Online Now
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-xs font-bold text-white/20 uppercase tracking-widest">
+              <a href="https://akwithai.blog/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                © 2026 AK with AI. Developed by AK with AI.
+              </a>
+            </p>
+            <div className="flex items-center gap-6">
+              <a href="#" className="text-white/40 hover:text-white transition-colors"><Shield size={20} /></a>
+              <a href="#" className="text-white/40 hover:text-white transition-colors"><Mail size={20} /></a>
+              <a href="https://wa.me/918838024747" target="_blank" className="text-white/40 hover:text-[#FFC300] transition-colors"><MessageCircle size={20} /></a>
+            </div>
           </div>
         </div>
       </footer>
